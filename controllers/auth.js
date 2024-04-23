@@ -59,7 +59,28 @@ const login = async (req, res) => {
   });
 };
 
+const logout = async (req, res) => {
+  const { _id } = req.user;
+  await User.findByIdAndUpdate(_id, { token: "" });
+
+  res.status(204);
+};
+
+const getUserInfo = async (req, res) => {
+  const { _id } = req.user;
+  const user = await User.findById(_id);
+
+  res.status(200).json({
+    user: {
+      name: user.name,
+      email: user.email,
+    },
+  });
+};
+
 module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
+  logout: ctrlWrapper(logout),
+  getUserInfo: ctrlWrapper(getUserInfo),
 };

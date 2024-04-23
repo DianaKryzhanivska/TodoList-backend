@@ -5,6 +5,7 @@ const router = express.Router();
 const ctrl = require("../../controllers/auth");
 const validateBody = require("../../middlewares/validateBody");
 const { schemas } = require("../../models/users");
+const authenticate = require("../../middlewares/authenticate");
 
 router.post(
   "/user/register",
@@ -13,5 +14,9 @@ router.post(
 );
 
 router.post("/user/login", validateBody(schemas.loginSchema), ctrl.login);
+
+router.post("/user/logout", authenticate, ctrl.logout);
+
+router.get("/user/user-info", authenticate, ctrl.getUserInfo);
 
 module.exports = router;
