@@ -69,8 +69,8 @@ const logout = async (req, res) => {
 };
 
 const getUserInfo = async (req, res) => {
-  const { _id } = req.user;
-  const user = await User.findById(_id);
+  const { email } = req.user;
+  const user = await User.findOne({ email });
 
   res.status(200).json({
     user: {
